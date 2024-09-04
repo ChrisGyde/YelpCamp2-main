@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const engine = require('ejs-mate');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
+const session = require('express-session');
 const ExpressError = require('./utilities/ExpressError');
 
 const campgrounds = require('./routes/campgrounds');
