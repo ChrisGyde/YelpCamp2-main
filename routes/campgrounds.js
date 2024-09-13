@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 const Campground = require('../models/campgrounds');
 const { campgroundSchema } = require('../schemas.js');
@@ -47,11 +48,16 @@ router.post(
 router.get(
 	'/:id',
 	catchAsync(async (req, res, next) => {
+		if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+			req.flash('error', 'Invalid campground ID');
+			return res.redirect('/campgrounds');
+		}
 		const campground = await Campground.findById(req.params.id).populate(
 			'reviews'
 		);
 		if (!campground) {
-			throw new ExpressError('Campground not found', 404);
+			req.flash('error', 'Cannot find that campground');
+			return res.redirect('/campgrounds');
 		}
 		res.render('campgrounds/details', { campground });
 	})
@@ -62,7 +68,8 @@ router.get(
 	catchAsync(async (req, res, next) => {
 		const campground = await Campground.findById(req.params.id);
 		if (!campground) {
-			throw new ExpressError('Campground not found', 404);
+			req.flash('error', 'Cannot find that campground');
+			return res.redirect('/campgrounds');
 		}
 		res.render('campgrounds/edit', { campground });
 	})
