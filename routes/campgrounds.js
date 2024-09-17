@@ -80,6 +80,7 @@ router.get(
 
 router.put(
 	'/:id',
+	isLoggedIn,
 	validateCampground,
 	catchAsync(async (req, res, next) => {
 		const { id } = req.params;
@@ -93,6 +94,7 @@ router.put(
 
 router.delete(
 	'/:id',
+	isLoggedIn,
 	catchAsync(async (req, res, next) => {
 		const { id } = req.params;
 		await Campground.findByIdAndDelete(id);
