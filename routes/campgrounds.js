@@ -3,7 +3,11 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 const Campground = require('../models/campgrounds');
-const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
+const {
+	isLoggedIn,
+	isCampgroundAuthor,
+	validateCampground,
+} = require('../middleware');
 const catchAsync = require('../utilities/catchAsync');
 
 router.get(
@@ -39,7 +43,7 @@ router.get(
 			return res.redirect('/campgrounds');
 		}
 		const campground = await Campground.findById(req.params.id)
-			.populate('reviews')
+			.populate({ path: 'reviews', populate: { path: 'author' } })
 			.populate('author');
 		console.log(campground);
 		if (!campground) {
@@ -53,7 +57,7 @@ router.get(
 router.get(
 	'/:id/edit',
 	isLoggedIn,
-	isAuthor,
+	isCampgroundAuthor,
 	catchAsync(async (req, res, next) => {
 		const campground = await Campground.findById(req.params.id);
 		if (!campground) {
@@ -68,7 +72,7 @@ router.put(
 	'/:id',
 	isLoggedIn,
 	validateCampground,
-	isAuthor,
+	isCampgroundAuthor,
 	catchAsync(async (req, res, next) => {
 		const { id } = req.params;
 		const campground = await Campground.findByIdAndUpdate(id, {
@@ -82,7 +86,7 @@ router.put(
 router.delete(
 	'/:id',
 	isLoggedIn,
-	isAuthor,
+	isCampgroundAuthor,
 	catchAsync(async (req, res, next) => {
 		const { id } = req.params;
 		await Campground.findByIdAndDelete(id);
