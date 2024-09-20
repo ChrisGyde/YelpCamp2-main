@@ -7,15 +7,23 @@ const {
 } = require('../middleware');
 const catchAsync = require('../utilities/catchAsync');
 const campgrounds = require('../controllers/campgrounds');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 router
 	.route('/')
 	.get(catchAsync(campgrounds.index))
-	.post(
+	/* .post(
 		isLoggedIn,
 		validateCampground,
 		catchAsync(campgrounds.createCampground)
-	);
+	); */
+	.post(upload.array('image'), (req, res) => {
+		res.send({
+			body: req.body,
+			file: req.files,
+		});
+	});
 
 router.get('/new', isLoggedIn, campgrounds.renderNewForm);
 

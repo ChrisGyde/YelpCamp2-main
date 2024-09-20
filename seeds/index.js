@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cities = require('./cities');
@@ -18,7 +22,7 @@ async function seedImg() {
 	try {
 		const resp = await axios.get('https://api.unsplash.com/photos/random', {
 			params: {
-				client_id: 'IHijM7eTAeTS6rDJNUwyHSjFhrLfJfvIw029UwAQ4no',
+				client_id: process.env.UNSPLASH_ID,
 				collections: 483251,
 			},
 		});
