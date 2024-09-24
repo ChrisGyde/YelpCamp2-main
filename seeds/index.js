@@ -18,7 +18,7 @@ db.once('open', () => {
 
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
-async function seedImg() {
+/* async function seedImg() {
 	try {
 		const resp = await axios.get('https://api.unsplash.com/photos/random', {
 			params: {
@@ -30,7 +30,7 @@ async function seedImg() {
 	} catch (err) {
 		console.error(err);
 	}
-}
+} */
 
 const seedDB = async () => {
 	await Campground.deleteMany({});
@@ -42,7 +42,21 @@ const seedDB = async () => {
 			author: '66e8aaaa54dfe4eba892fa5f',
 			location: `${cities[random1000].city}, ${cities[random1000].state}`,
 			title: `${sample(descriptors)} ${sample(places)}`,
-			image: await seedImg(),
+			/* image: await seedImg(), */
+			images: [
+				{
+					url: 'https://res.cloudinary.com/ddyq3yhvf/image/upload/v1727105078/YelpCamp/jivux6wftzvfnu1wc4za.jpg',
+					filename: 'YelpCamp/jivux6wftzvfnu1wc4za',
+				},
+				{
+					url: 'https://res.cloudinary.com/ddyq3yhvf/image/upload/v1727105080/YelpCamp/r1xme9ttleq2jl3yinmo.jpg',
+					filename: 'YelpCamp/r1xme9ttleq2jl3yinmo',
+				},
+				{
+					url: 'https://res.cloudinary.com/ddyq3yhvf/image/upload/v1727105080/YelpCamp/vfm871o4izfz3ownx57i.jpg',
+					filename: 'YelpCamp/vfm871o4izfz3ownx57i',
+				},
+			],
 			price,
 			description:
 				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis, nihil tempora vel aspernatur quod aliquam illum! Iste impedit odio esse neque veniam molestiae eligendi commodi minus, beatae accusantium, doloribus quo!',

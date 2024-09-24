@@ -2,10 +2,9 @@
 
     <h1 class="text-center mb-3">Edit Campground</h1>
     <div class="row">
-        <p class="">
         <div class="col-6 offset-3">
             <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate
-                class="validated-form">
+                class="validated-form" enctype="multipart/form-data">
 
                 <div class="mb-3">
 
@@ -19,10 +18,14 @@
                     <input class="form-control" type="text" id="location" name="campground[location]"
                         value=" <%=campground.location %>" required>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="image">Image URL</label>
-                    <input class="form-control" type="text" id="image" name="campground[image]"
-                        value=" <%=campground.image %>" required>
+                <div>
+                    <div><label class="form-label" for="location">Add More Images</label></div>
+                    <div class="input-group mb-3">
+                        <input type="file" name="images" id="images" multiple class="form-control">
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
@@ -41,12 +44,11 @@
                 <div class="pt-3">
                     <button class="btn btn-primary">Update</button>
                 </div>
-                <div class="pt-3">
-                    <form action="/campgrounds/<%= campground._id %>">
-                        <button class="btn btn-secondary">Back to Campground</button>
-                    </form>
-                </div>
             </form>
+            <div class="pt-3">
+                <form action="/campgrounds/<%= campground._id %>">
+                    <button class="btn btn-secondary">Back to Campground</button>
+                </form>
+            </div>
         </div>
-        </p>
     </div>
