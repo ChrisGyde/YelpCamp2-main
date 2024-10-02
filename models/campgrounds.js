@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Review = require('./review');
+const { coordinates } = require('@maptiler/client');
 const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
@@ -17,6 +18,18 @@ const CampgroundSchema = new Schema({
 		required: true,
 	},
 	images: [ImageSchema],
+	geometry: {
+		type: {
+			type: String,
+			enum: ['Point'],
+			required: true,
+		},
+		coordinates: {
+			type: [Number],
+			required: true,
+		},
+	},
+
 	price: {
 		type: Number,
 		required: true,
